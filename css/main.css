@@ -1,8 +1,23 @@
 body {
-  background-color: slategrey;
-  background-image: "assets/corridor.jpg"; }
+  background-image: url(../assets/corridor.jpg);
+  background-size: 100%; }
 
 .loginSection {
   border: 2px solid white;
   padding: 5px;
   margin-top: 5em; }
+
+.dungeon {
+  height: 40em;
+  background-size: 100%; }
+
+.main-view {
+  margin-top: none; }
+
+.menuBox {
+  background-image: url(../assets/rectangle.png);
+  background-size: 100%; }
+
+.loginBox {
+  background-image: url(../assets/rectangle.png);
+  background-size: 100%; }

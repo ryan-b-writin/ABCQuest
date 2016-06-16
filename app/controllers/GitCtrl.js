@@ -9,6 +9,7 @@ app.controller("GitCtrl", function($scope, $http, itemStorage){
   }
 
   $scope.loginToGitHub = function(){
-    itemStorage.authenticateWithGitHub();
+    console.log("login to github");
+    itemStorage.authenticateWithGithub();
   }
 });

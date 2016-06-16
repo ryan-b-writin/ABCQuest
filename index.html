@@ -9,7 +9,9 @@
 </head>
 <body ng-app="QuestApp">
 
-  <div ng-view>
+  <div ng-include="'partials/githubCounter.html'"></div>
+
+  <div class="main-view" ng-view>
   </div>
   <div ng-include="'partials/navbar.html'"></div>
   
@@ -23,6 +25,7 @@
   <script type="text/javascript" src="app/app.js"></script>
   <script type="text/javascript" src="app/factories/AuthFactory.js"></script>  
   <script type="text/javascript" src="app/factories/ItemFactory.js"></script>
+  <script type="text/javascript" src="app/controllers/DungeonCtrl.js"></script> 
   <script type="text/javascript" src="app/controllers/GitCtrl.js"></script>
   <script type="text/javascript" src="app/controllers/LoginCtrl.js"></script>
 </body>
