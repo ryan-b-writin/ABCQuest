@@ -1,5 +1,6 @@
 body {
-  background-color: slategrey; }
+  background-color: slategrey;
+  background-image: "assets/corridor.jpg"; }
 
 .loginSection {
   border: 2px solid white;

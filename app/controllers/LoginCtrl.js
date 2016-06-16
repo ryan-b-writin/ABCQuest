@@ -16,7 +16,7 @@ app.controller("LoginCtrl", function($scope, $rootScope, $location, firebaseURL,
   }
 
 $scope.register = () => {
-    console.log("you clicked register");
+    console.log("register");
     ref.createUser({
         email: $scope.account.email,
         password: $scope.account.password
@@ -41,5 +41,7 @@ $scope.register = () => {
 
       })
   }
+
+  console.log("hello login");
 
 });
