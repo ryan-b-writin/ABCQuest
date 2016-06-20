@@ -30,6 +30,25 @@ app.controller("DungeonCtrl", function($scope, userStorage){
       }
     }
   }
+
+  $scope.flee = function(){
+    let coinFlip = Math.round(Math.random());
+    if (coinFlip === 0){
+      console.log("you fled the battle!");
+      $scope.monster.health = 4;
+    } else {
+      $scope.playerCharacter.health -= $scope.monster.attackDamage;
+      console.log(`the monster hits you for ${$scope.monster.attackDamage}!`);
+    }
+  }
+
+  $scope.healthPotion = function(){
+    var amtHealed = 10 - $scope.playerCharacter.health;
+    $scope.playerCharacter.health = 10;
+    console.log(`the potion heals you for ${amtHealed}.`);
+  }
+
+
   //generate player character: 
     // -attack damage
   //populate left menu with placeholders or user account info

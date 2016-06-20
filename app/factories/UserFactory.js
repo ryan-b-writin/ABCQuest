@@ -1,5 +1,5 @@
 'use strict';
-app.factory("userStorage", function($q, $http, firebaseURL, AuthFactory){
+app.factory("userStorage", function($q, $http, firebaseURL){
 var userAccount = {};
 
 //create user account object

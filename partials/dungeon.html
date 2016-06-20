@@ -11,11 +11,13 @@
   <!-- character portrait -->
   <!-- <current HP total -->
 
-  <!-- bottom right menu: menu selections: attack-->
+  <!-- bottom right menu: menu selections: attack, etc-->
   <div class="col s6">
-  <!-- attack button: starts timer, attack sequence -->
+  <!-- attack button: starts attack sequence -->
     <button class="action" ng-click="attackSequence()">ATTACK</button>
   <!-- health potion: costs 1GP, fills up health -->
-    <button class="potion">HEALTH POTION</button>
+    <button class="potion" ng-click="healthPotion()">HEALTH POTION</button>
+  <!-- flee button: emergency end to battle, 50% chance of failure -->
+    <button class="flee" ng-click="flee()">FLEE</button>
   </div>
 </div>
