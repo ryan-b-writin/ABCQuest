@@ -9,7 +9,31 @@ app.controller("GitCtrl", function($scope, $http, userStorage){
   // github authentication token
   // monster kills
 
+  $scope.userAcctObject = {
+  }
+
+  $scope.getGP = function(){
+    if (!$scope.userAcctObject.gitHubToken){
+      userStorage.authWithGitHub()
+        .then(function(resolve){
+          $scope.userAcctObject.uid = resolve.uid,
+          $scope.userAcctObject.avatar = resolve.github.profileImageURL,
+          $scope.userAcctObject.userName = resolve.github.username,
+          $scope.userAcctObject.token = resolve.token
+        }).then(function(){
+          if (!userStorage.findUserAcct()){
+            userStorage.postNewUserAcct($scope.userAcctObject);
+          } else {
+            // userStorage.retrieveUserInfo()
+          }
+        });
+    }
+  }
+
 //on click of GET GP BUTTON
+  //check if user account object is filled in
+    //if not, populate it with account info
+    //uid, github avatar, github username, 0 GP spent, 0 monster kills
   //check if user has github token
     //if unauthenticated- run firebase github authentication
       //then count commits and update lifetime GP on userAccount Object, update firebase
@@ -29,12 +53,6 @@ app.controller("GitCtrl", function($scope, $http, userStorage){
     itemStorage.accessGithub($scope.userName).then(function successCallback(response){
       var itemCollection = response;
     })
-  }
-
-  //run github authentication snippet
-  $scope.loginToGitHub = function(){
-    console.log("login to github");
-    itemStorage.authenticateWithGithub();
   }
 
 });

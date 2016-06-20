@@ -14,23 +14,24 @@ var app = angular.module("QuestApp", ["ngRoute"])
 app.config(function($routeProvider){
   $routeProvider.
   when('/', {
-    templateUrl:'partials/login.html',
-    controller:'LoginCtrl'
-  }).
-  when('/dungeon', {
     templateUrl:'partials/dungeon.html',
-    controller:'DungeonCtrl',
-    resolve: {isAuth}
+    controller:'DungeonCtrl'
+    // resolve: {isAuth}
+  // }).
+  // when('/dungeon', {
+  //   templateUrl:'partials/dungeon.html',
+  //   controller:'DungeonCtrl',
+  //   resolve: {isAuth}
+  // }).
+  // when('/login', {
+  //   templateUrl: 'partials/login.html',
+  //   controller: 'LoginCtrl'
+  // }).
+  // when('/logout', {
+  //   templateUrl: 'partials/login.html',
+  //   controller: 'LoginCtrl'
   }).
-  when('/login', {
-    templateUrl: 'partials/login.html',
-    controller: 'LoginCtrl'
-  }).
-  when('/logout', {
-    templateUrl: 'partials/login.html',
-    controller: 'LoginCtrl'
-  }).
-  otherwise('/login');
+  otherwise('/');
 });
 
 app.run(($location) => {

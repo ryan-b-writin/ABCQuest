@@ -4,10 +4,18 @@
 
 
 <!-- bottom left menu: populate with character info -->
-<!-- character portrait -->
-<!-- <current HP total -->
+<div class="row">
+  <div class="col s6">
+  this div is 6 columns wide
+  </div>
+  <!-- character portrait -->
+  <!-- <current HP total -->
 
-<!-- bottom right menu: menu selections: attack, which target, etc -->
-<!-- attack button: starts timer, attack sequence -->
-<!-- health potion: costs 1GP, fills up health -->
-<!-- retreat!: stops attack sequence, enemy disappears -->
+  <!-- bottom right menu: menu selections: attack-->
+  <div class="col s6">
+  <!-- attack button: starts timer, attack sequence -->
+    <button class="action" ng-click="attackSequence()">ATTACK</button>
+  <!-- health potion: costs 1GP, fills up health -->
+    <button class="potion">HEALTH POTION</button>
+  </div>
+</div>
