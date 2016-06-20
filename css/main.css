@@ -21,3 +21,11 @@ body {
 .loginBox {
   background-image: url(../assets/rectangle.png);
   background-size: 100%; }
+
+.monsters {
+  text-align: center;
+  min-height: 300px;
+  padding: 20px; }
+
+.leftMenu {
+  color: white; }

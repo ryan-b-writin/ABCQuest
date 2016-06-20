@@ -3,13 +3,14 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     attackDamage: 2,
     health: 10,
     avatar: null,
-    monster_kills: 0
+    monster_kills: 0,
+    avatar: "https://avatars.githubusercontent.com/u/16698152?v=3"
   }
 
   $scope.monster = {
     attackDamage: 1,
     health: 4,
-    portrait: null,
+    portrait: "assets/monster.jpeg",
     name: "generic placeholder"
   }
 
