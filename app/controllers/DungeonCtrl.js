@@ -14,20 +14,22 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     name: "generic placeholder"
   }
 
+  $scope.message = "WELCOME TO ABCQuest"
+
   $scope.attackSequence = function(){
     $scope.monster.health -= $scope.playerCharacter.attackDamage;
     if($scope.monster.health < 1) {
-      console.log(`you slew the ${$scope.monster.name}`);
+      $scope.message= `you slew the ${$scope.monster.name}`
       $scope.playerCharacter.monster_kills += 1;
       console.log("current monster kills:", $scope.playerCharacter.monster_kills);
       $scope.monster.health = 4;
     } else {
-      console.log(`You deal ${$scope.playerCharacter.attackDamage} damage!`);
+      $scope.message =`You deal ${$scope.playerCharacter.attackDamage} damage!`
       $scope.playerCharacter.health -= $scope.monster.attackDamage;
       if ($scope.playerCharacter.health < 1){
-        console.log("YOU HAVE FALLEN IN BATTLE");
+        $scope.message="YOU HAVE FALLEN IN BATTLE"
       } else {
-        console.log(`the monster hits you for ${$scope.monster.attackDamage}!` );
+        $scope.message=`You hit the ${$scope.monster.name} for ${$scope.playerCharacter.attackDamage}. The monster hits you for ${$scope.monster.attackDamage}!`
       }
     }
   }
@@ -35,18 +37,18 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   $scope.flee = function(){
     let coinFlip = Math.round(Math.random());
     if (coinFlip === 0){
-      console.log("you fled the battle!");
+      $scope.message="you fled the battle!"
       $scope.monster.health = 4;
     } else {
       $scope.playerCharacter.health -= $scope.monster.attackDamage;
-      console.log(`the monster hits you for ${$scope.monster.attackDamage}!`);
+      $scope.message=`You couldn't get away! The monster hits you for ${$scope.monster.attackDamage}!`
     }
   }
 
   $scope.healthPotion = function(){
     var amtHealed = 10 - $scope.playerCharacter.health;
     $scope.playerCharacter.health = 10;
-    console.log(`the potion heals you for ${amtHealed}.`);
+    $scope.message= `the potion heals you for ${amtHealed}.`
   }
 
 

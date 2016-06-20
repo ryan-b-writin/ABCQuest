@@ -5,12 +5,6 @@ body{
   background-size: 100%;
 }
 
-.loginSection{
-  border: 2px solid white;
-  padding: 5px;
-  margin-top: 5em;
-}
-
 .dungeon {
   height: 40em;
   background-size: 100%
@@ -28,10 +22,6 @@ body{
   background-size: 100%
 }
 
-.loginBox{
-  background-image: url(../assets/rectangle.png);
-  background-size: 100%
-}
 
 .monsters{
   text-align: center;
@@ -40,5 +30,11 @@ body{
 }
 
 .leftMenu{
+  color: white;
+}
+
+.dialogueBar {
+  background-color: blue;
+  text-align: center;
   color: white;
 }
