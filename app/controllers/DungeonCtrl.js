@@ -51,6 +51,24 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     $scope.message= `the potion heals you for ${amtHealed}.`
   }
 
+   $scope.getGP = function(){
+    if (!$scope.playerCharacter.gitHubToken){
+      userStorage.authWithGitHub()
+        .then(function(resolve){
+          $scope.playerCharacter.uid = resolve.uid,
+          $scope.playerCharacter.avatar = resolve.github.profileImageURL,
+          $scope.playerCharacter.userName = resolve.github.username
+          if (!userStorage.findUserAcct()){
+            userStorage.postNewUserAcct($scope.playerCharacter);
+          } else {
+            // userStorage.retrieveUserInfo()
+          }
+          var numOfCommits = userStorage.countCommits()
+          console.log("num of commits", numOfCommits);
+        })
+    }
+  }
+
 
   //generate player character: 
     // -attack damage
