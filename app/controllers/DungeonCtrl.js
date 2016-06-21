@@ -4,7 +4,8 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     health: 10,
     avatar: null,
     monster_kills: 0,
-    avatar: "assets/sword.png"
+    avatar: "assets/sword.png",
+    userName: "Mysterious Adventurer"
   }
 
   $scope.monster = {

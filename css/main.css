@@ -18,8 +18,16 @@ body {
   min-height: 300px;
   padding: 20px; }
 
-.leftMenu {
-  color: white; }
+.menu {
+  background-color: blue;
+  color: white;
+  min-height: 150px;
+  border: 2px solid white;
+  padding-top: 10px; }
+
+button {
+  color: black;
+  display: block; }
 
 .dialogueBar {
   background-color: blue;
