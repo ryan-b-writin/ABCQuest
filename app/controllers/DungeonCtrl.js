@@ -4,7 +4,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     health: 10,
     avatar: null,
     monster_kills: 0,
-    avatar: "https://avatars.githubusercontent.com/u/16698152?v=3"
+    avatar: "assets/sword.png"
   }
 
   $scope.monster = {
@@ -13,6 +13,8 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     portrait: "assets/monster.jpeg",
     name: "generic placeholder"
   }
+
+  $scope.loginButton = "Log in with Github"
 
   $scope.message = "WELCOME TO ABCQuest"
 
@@ -49,6 +51,25 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     var amtHealed = 10 - $scope.playerCharacter.health;
     $scope.playerCharacter.health = 10;
     $scope.message= `the potion heals you for ${amtHealed}.`
+  }
+
+   $scope.getGP = function(){
+    if (!$scope.playerCharacter.gitHubToken){
+      userStorage.authWithGitHub()
+        .then(function(resolve){
+          $scope.loginButton = "Update GP total"
+          $scope.playerCharacter.uid = resolve.uid,
+          $scope.playerCharacter.avatar = resolve.github.profileImageURL,
+          $scope.playerCharacter.userName = resolve.github.username
+          if (!userStorage.findUserAcct()){
+            userStorage.postNewUserAcct($scope.playerCharacter);
+          } else {
+            // userStorage.retrieveUserInfo()
+          }
+          // var numOfCommits = userStorage.countCommits()
+          // console.log("num of commits", numOfCommits);
+        })
+    }
   }
 
 

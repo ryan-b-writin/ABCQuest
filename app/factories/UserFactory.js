@@ -14,6 +14,9 @@ var totalCommits = [];
     // current HP
     // github authentication token (temporary & so does not get passed to firebase)
 
+
+  
+
   var postNewUserAcct = function(newUser){
     return $q(function(resolve,reject){
       $http.post(
