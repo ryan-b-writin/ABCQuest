@@ -1,5 +1,5 @@
 <!-- GP counter ticks down as GP is spent -->
-<div class="col s12 blue" style="text-align:center">
+<div class="col s12 blue gitTracker">
 <!-- <button ng-click="updateGP()">Update GP Total</button> -->
 <!-- GP total updates when button is clicked -->
   {{(playerCharacter.GPcounted - playerCharacter.GPspent)}} GP
@@ -19,14 +19,13 @@
 <!-- bottom left menu: populate with character info -->
 <div class="row">
   <div class="col s6 menu leftMenu">
-  <img ng-src={{playerCharacter.avatar}} style="width:50px;height:50px">
-  <p style="display:inline-block">{{playerCharacter.userName}} |</p>
-  <p style="display:inline-block">HP: {{playerCharacter.health}}/10</p>
-  <p style="display:inline-block">Monsters Slain: {{playerCharacter.monster_kills}}</p>
-  <button ng-click="getGP()">{{loginButton}}</button>
-  </div>
   <!-- character portrait -->
+  <img class="avatar" ng-src={{playerCharacter.avatar}}>
   <!-- <current HP total -->
+  <p class="stats">HP: {{playerCharacter.health}}/10</p>
+  <p class="stats">Monsters Slain: {{playerCharacter.monster_kills}}</p>
+  <button ng-click="getGP()">{{loginButton}}</button>
+</div>
 
   <!-- bottom right menu: menu selections: attack, etc-->
   <div class="col s6 menu rightMenu">

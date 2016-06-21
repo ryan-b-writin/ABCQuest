@@ -3,20 +3,12 @@ app.factory("userStorage", function($q, $http, firebaseURL){
 var userAccount = {};
 var totalCommits = [];
 
-//create user account object
-  //user account has:
-    // firebase UID
-    // Github avatar
-    // Github username
-    // lifetime GP counted
-    // lifetime GP spent
-    // monster kills
-    // current HP
-    // github authentication token (temporary & so does not get passed to firebase)
+//function to find specific user accounts
+  var findUserAcct = function(){
+    return false;
+  }
 
-
-  
-
+  //post new user account to Firebase
   var postNewUserAcct = function(newUser){
     return $q(function(resolve,reject){
       $http.post(
@@ -47,17 +39,12 @@ var authWithGitHub = function(){
         console.log("Login Failed!", error);
       } else {
         console.log("Authenticated successfully with payload:", authData);
-        console.log("UID", authData.uid );
-        userAccount.userName= authData.github.username;
+        userAccount.userName = authData.github.username;
+        userAccount.uid = authData.uid;
         resolve(authData);
       }
     });
   })
-}
-
-var findUserAcct = function(){
-
-  return false;
 }
 
 var getRepos = function(){

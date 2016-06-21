@@ -17,20 +17,24 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     name: "generic placeholder"
   }
 
+  //login button text
   $scope.loginButton = "Log in with Github"
 
+  //dialogue bar text
   $scope.message = "WELCOME TO ABCQuest"
 
+  //on click of attack button- battle sequence
   $scope.attackSequence = function(){
     $scope.monster.health -= $scope.playerCharacter.attackDamage;
     if($scope.monster.health < 1) {
       $scope.message= `you slew the ${$scope.monster.name}`
       $scope.playerCharacter.monster_kills += 1;
-      console.log("current monster kills:", $scope.playerCharacter.monster_kills);
+      //update user account with new monster kill total
       $scope.monster.health = 4;
     } else {
       $scope.message =`You deal ${$scope.playerCharacter.attackDamage} damage!`
       $scope.playerCharacter.health -= $scope.monster.attackDamage;
+      //update user account with new HP total
       if ($scope.playerCharacter.health < 1){
         $scope.message="YOU HAVE FALLEN IN BATTLE"
       } else {
@@ -39,6 +43,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
+  //on click of flee button. 50% chance to succeed, resets monster on success.
   $scope.flee = function(){
     let coinFlip = Math.round(Math.random());
     if (coinFlip === 0){
@@ -50,6 +55,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
+  //health potion function. restores health, costs 1GP
   $scope.healthPotion = function(){
     if (($scope.playerCharacter.GPcounted - $scope.playerCharacter.GPspent) < 1 ){
       $scope.message = "You can't afford a health potion :("
@@ -57,67 +63,38 @@ app.controller("DungeonCtrl", function($scope, userStorage){
       $scope.playerCharacter.GPspent += 1;
       var amtHealed = 10 - $scope.playerCharacter.health;
       $scope.playerCharacter.health = 10;
+      //update GP spent & HP total w/firebase
       $scope.message= `the potion heals you for ${amtHealed}.`
       console.log("GP spent:", $scope.playerCharacter.GPspent);
     }
   }
 
+  //login button function. pulls down github data, populates menu
+  //pulls down firebase user account if one is present,
+  //pushes up new acount info if one is not.
    $scope.getGP = function(){
+    //if player is unauthenticated...
     if (!$scope.playerCharacter.gitHubToken){
       userStorage.authWithGitHub()
         .then(function(resolve){
+          //populate menu with github auth results- avatar, name, uid for tracking account
           $scope.loginButton = "Update GP total"
           $scope.playerCharacter.uid = resolve.uid,
           $scope.playerCharacter.avatar = resolve.github.profileImageURL,
           $scope.playerCharacter.userName = resolve.github.username
+          //search for existing account. if none is found...
           if (!userStorage.findUserAcct()){
+            //push up the current userAccount object with starting stats & github name. avatar etc
             userStorage.postNewUserAcct($scope.playerCharacter);
+          //if an existing account is found..
           } else {
             // userStorage.retrieveUserInfo()
           }
+          // finally, update the number of commits counted in userAccount object & firebase
           // var numOfCommits = userStorage.countCommits()
-          // console.log("num of commits", numOfCommits);
         })
     }
   }
 
-
-  //generate player character: 
-    // -attack damage
-  //populate left menu with placeholders or user account info
-    // placeholder portrait, starter HP, 0 monster kills- 
-    // to be overwritten with user account info if present
-    // -github avatar for character portrait
-    // -hp total
-    // -number of monsters killed
-
-  //battle function: called by attack button
-    //IF: no monster present
-      // generate monster
-      // print //print YOU ENCOUNTER A 'MONSTERNAME' to dialogue bar
-      // break
-    //IF: monster present: 
-      //player attacks monster, deal attack damage to monster HP, 
-      //IF: monster dies:
-        // print: You slew the 'MONSTERNAME' to dialogue bar
-        // make monster portrait disappear
-        // generate new monster , keep poartrait hidden
-      //IF: monster lives:
-        // print PLAYER ATTACKS FOR XXX damage to dialogue bar
-        // monster attacks, deal monster damage to player HP
-        // update player HP total on left menu bar & user account
-          //IF: player dies: 
-            // print: YOU HAVE FALLEN to dialogue bar
-          //IF: player lives:
-            // print MONSTER ATTACKS YOU FOR YYY DAMAGE to dialogue bar
-    
-  //flee button:
-      //print YOU FLED THE BATTLE to dialogue bar
-      //remove monster
-
-  //HEALTH POTION BUTTON: 
-    //update player HP to max on menu & user account
-    //add 1 to lifetime GP spent
-      //recalculate current GP in GP bar
 
 });
