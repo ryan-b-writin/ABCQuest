@@ -2,7 +2,7 @@
 <div class="col s12 blue" style="text-align:center">
 <!-- <button ng-click="updateGP()">Update GP Total</button> -->
 <!-- GP total updates when button is clicked -->
-  <span>0</span> GP
+  {{(playerCharacter.GPcounted - playerCharacter.GPspent)}} GP
 </div>
 
 <!-- dialogue bar: narration appears here -->
@@ -22,6 +22,7 @@
   <img ng-src={{playerCharacter.avatar}} style="width:50px;height:50px">
   <p style="display:inline-block">{{playerCharacter.userName}} |</p>
   <p style="display:inline-block">HP: {{playerCharacter.health}}/10</p>
+  <p style="display:inline-block">Monsters Slain: {{playerCharacter.monster_kills}}</p>
   <button ng-click="getGP()">{{loginButton}}</button>
   </div>
   <!-- character portrait -->

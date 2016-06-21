@@ -5,7 +5,9 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     avatar: null,
     monster_kills: 0,
     avatar: "assets/sword.png",
-    userName: "Mysterious Adventurer"
+    userName: "Mysterious Adventurer",
+    GPcounted: 0,
+    GPspent: 0
   }
 
   $scope.monster = {
@@ -49,9 +51,15 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   }
 
   $scope.healthPotion = function(){
-    var amtHealed = 10 - $scope.playerCharacter.health;
-    $scope.playerCharacter.health = 10;
-    $scope.message= `the potion heals you for ${amtHealed}.`
+    if (($scope.playerCharacter.GPcounted - $scope.playerCharacter.GPspent) < 1 ){
+      $scope.message = "You can't afford a health potion :("
+    } else {
+      $scope.playerCharacter.GPspent += 1;
+      var amtHealed = 10 - $scope.playerCharacter.health;
+      $scope.playerCharacter.health = 10;
+      $scope.message= `the potion heals you for ${amtHealed}.`
+      console.log("GP spent:", $scope.playerCharacter.GPspent);
+    }
   }
 
    $scope.getGP = function(){
