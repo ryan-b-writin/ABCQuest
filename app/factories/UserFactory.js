@@ -1,6 +1,7 @@
 'use strict';
 app.factory("userStorage", function($q, $http, firebaseURL){
 var userAccount = {};
+var totalCommits = [];
 
 //create user account object
   //user account has:
@@ -45,7 +46,6 @@ var authWithGitHub = function(){
         console.log("Authenticated successfully with payload:", authData);
         console.log("UID", authData.uid );
         userAccount.userName= authData.github.username;
-        // console.log("github info", authData. );
         resolve(authData);
       }
     });
@@ -60,7 +60,7 @@ var findUserAcct = function(){
 var getRepos = function(){
 let allRepos = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/users/${userAccount.userName}/repos?client_id=xxxx&client_secret=xxxx`)
+  $http.get(`https://api.github.com/users/${userAccount.userName}/repos?xxxx`)
     .success(function(response){
       for (let repoName in response){
         allRepos.push(response[repoName].name);
@@ -73,7 +73,7 @@ let allRepos = [];
 var getCommits = function(repoName){
   let allCommits = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits?client_id=xxxx&client_secret=xxxx`)
+  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits?xxxx`)
     .success(function(response){
       for (let commits in response){
         allCommits.push(response[commits]);
@@ -85,23 +85,23 @@ var getCommits = function(repoName){
 
 
 var countCommits = function(){
-  let totalCommits = [];
-  return $q(function(resolve,reject){
-    getRepos().then(function(repoNames){
-      for (let repoName in repoNames){
-        getCommits(repoNames[repoName]).then(function(response){
-          for (let commits in response) {
-            totalCommits.push(response[commits])
-          }
-        })
-      }
-    }).then(function(){
-            resolve(totalCommits);
-       }) 
-   
+  getRepos().then(function(repoNames){
+    for (let repoName in repoNames){
+      getCommits(repoNames[repoName]).then(function(response){
+        for (let commits in response) {
+          totalCommits.push(response[commits])
+        }
+      })
+    }
+    console.log("total comits", totalCommits);
+    return totalCommits.length
   })
 }
 
+var getTotalCommits = function(){
+  return totalCommits.length;
+}
 
-  return {countCommits:countCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+
+  return {countCommits:countCommits, getTotalCommits:getTotalCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });

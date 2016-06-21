@@ -20,16 +20,13 @@ app.controller("GitCtrl", function($scope, $http, userStorage){
           $scope.userAcctObject.avatar = resolve.github.profileImageURL,
           $scope.userAcctObject.userName = resolve.github.username,
           $scope.userAcctObject.token = resolve.token
-        }).then(function(){
           if (!userStorage.findUserAcct()){
             userStorage.postNewUserAcct($scope.userAcctObject);
           } else {
             // userStorage.retrieveUserInfo()
           }
-        }).then(function(){
-          userStorage.countCommits().then(function(data){
-          console.log("num of commits", data.length);
-          })
+          var numOfCommits = userStorage.countCommits()
+          console.log("num of commits", numOfCommits);
         })
     }
   }
