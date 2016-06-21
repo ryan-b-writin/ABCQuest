@@ -26,7 +26,11 @@ app.controller("GitCtrl", function($scope, $http, userStorage){
           } else {
             // userStorage.retrieveUserInfo()
           }
-        });
+        }).then(function(){
+          userStorage.countCommits().then(function(data){
+          console.log("num of commits", data.length);
+          })
+        })
     }
   }
 

@@ -44,6 +44,7 @@ var authWithGitHub = function(){
       } else {
         console.log("Authenticated successfully with payload:", authData);
         console.log("UID", authData.uid );
+        userAccount.userName= authData.github.username;
         // console.log("github info", authData. );
         resolve(authData);
       }
@@ -56,7 +57,51 @@ var findUserAcct = function(){
   return false;
 }
 
+var getRepos = function(){
+let allRepos = [];
+  return $q(function(resolve,reject){
+  $http.get(`https://api.github.com/users/${userAccount.userName}/repos?client_id=xxxx&client_secret=xxxx`)
+    .success(function(response){
+      for (let repoName in response){
+        allRepos.push(response[repoName].name);
+      }
+      resolve(allRepos)
+    })
+  })
+}
+
+var getCommits = function(repoName){
+  let allCommits = [];
+  return $q(function(resolve,reject){
+  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits?client_id=xxxx&client_secret=xxxx`)
+    .success(function(response){
+      for (let commits in response){
+        allCommits.push(response[commits]);
+      }
+      resolve(allCommits);
+    })
+  })
+}
 
 
-  return {authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+var countCommits = function(){
+  let totalCommits = [];
+  return $q(function(resolve,reject){
+    getRepos().then(function(repoNames){
+      for (let repoName in repoNames){
+        getCommits(repoNames[repoName]).then(function(response){
+          for (let commits in response) {
+            totalCommits.push(response[commits])
+          }
+        })
+      }
+    }).then(function(){
+            resolve(totalCommits);
+       }) 
+   
+  })
+}
+
+
+  return {countCommits:countCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });
