@@ -28,7 +28,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   $scope.attackSequence = function(){
     $scope.playerCharacter.monster.health -= $scope.playerCharacter.attackDamage;
     if($scope.playerCharacter.monster.health < 1) {
-      $scope.message= `you slew the ${$scope.playerCharacter.currentMonster.name}`
+      $scope.message= `you slew the ${$scope.playerCharacter.monster.name}`
       $scope.playerCharacter.kills += 1;
       //update user account with new monster kill total
       $scope.playerCharacter.monster.health = 4;
@@ -42,6 +42,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
         $scope.message=`You hit the ${$scope.playerCharacter.monster.name} for ${$scope.playerCharacter.attackDamage}. The monster hits you for ${$scope.playerCharacter.monster.attackDamage}!`
       }
     }
+    userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
   }
 
   //on click of flee button. 50% chance to succeed, resets monster on success.

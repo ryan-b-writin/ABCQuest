@@ -95,9 +95,28 @@ var authWithGitHub = function(){
   })
 }
 
-var updateGithub = function(){
-  console.log("updateGithub");
-}
+var updateUserAcct = function(objectID, updatedObject){
+      return $q(function(resolve, reject) {
+          $http.put(
+              firebaseURL + "users/" + objectID + ".json",
+              JSON.stringify({
+                avatar: updatedObject.avatar,
+                userName: updatedObject.userName,
+                GPcounted: updatedObject.GPcounted,
+                GPspent: updatedObject.GPspent,
+                kills: updatedObject.kills,
+                hp: updatedObject.health,
+                uid: updatedObject.uid,
+                monster: updatedObject.monster
+              })
+          )
+          .success(
+              function(objectFromFirebase) {
+                  resolve(objectFromFirebase);
+              }
+          );
+      });
+  };
 
 var getRepos = function(){
 let allRepos = [];
@@ -145,5 +164,5 @@ var getTotalCommits = function(){
 }
 
 
-  return {updateGithub:updateGithub, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, countCommits:countCommits, getTotalCommits:getTotalCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+  return {updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, countCommits:countCommits, getTotalCommits:getTotalCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });
