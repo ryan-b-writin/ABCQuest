@@ -152,16 +152,16 @@ var getRepos = function(userName){
 var getCommits = function(listOfRepos){
   let allCommits = [];
   return $q(function(resolve,reject){
-  for (let repoName in listOfRepos) {
-  $http.get(`https://api.github.com/repos/${userAccount.userName}/${listOfRepos[repoName]}/commits${myToken}`)
-    .success(function(response){
-      for (let commits in response){
-        allCommits.push(response[commits]);
-      }
-      resolve(allCommits);
-    })
-  }
-})
+    for (let repoName in listOfRepos) {
+    $http.get(`https://api.github.com/repos/${userAccount.userName}/${listOfRepos[repoName]}/commits${myToken}`)
+      .success(function(response){
+        for (let commits in response){
+          allCommits.push(response[commits]);
+        }
+        resolve(allCommits);
+      })
+    }
+  })
 }
 
 // </problemarea> ------------------------------------------

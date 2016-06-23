@@ -114,7 +114,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
             userStorage.postNewUserAcct($scope.playerCharacter).then(function(response){
               $scope.userID = response.name;
             })
-          //if an existing account is found..
+            //if an existing account is found..
             } else {
               userStorage.retrieveUserInfo($scope.userID).then(function(data){
               $scope.playerCharacter.health = data.hp;
