@@ -2,7 +2,22 @@
 app.factory("userStorage", function($q, $http, firebaseURL){
 var userAccount = {};
 var totalCommits = [];
-var userID = null;
+var myToken = "";
+
+var authToken = function(){
+  return $q(function(resolve, reject){
+    $http.get("/data/githubAuthData.json")
+      .success(function(tokenObject){
+        myToken = tokenObject.data;
+        resolve(tokenObject);
+        })
+      .error(function(error){
+        reject(error);
+      });
+     })
+    }
+
+authToken();
 
 //get list of all users
   var getUserList = function(){
@@ -121,7 +136,7 @@ var updateUserAcct = function(objectID, updatedObject){
 var getRepos = function(){
 let allRepos = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/users/${userAccount.userName}/repos`)
+  $http.get(`https://api.github.com/users/${userAccount.userName}/repos${mytoken}`)
     .success(function(response){
       for (let repoName in response){
         allRepos.push(response[repoName].name);
@@ -134,7 +149,7 @@ let allRepos = [];
 var getCommits = function(repoName){
   let allCommits = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits`)
+  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits${myToken}`)
     .success(function(response){
       for (let commits in response){
         allCommits.push(response[commits]);

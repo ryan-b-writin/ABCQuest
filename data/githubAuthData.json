@@ -1,6 +1,3 @@
 {
-  "items":{
-    "clientId":"120f7a5312cc11445837",
-    "clientSecret":"6ce0e1984fedd0cfc00701093f205b2711858b6f"
-  }
+    "data": "?client_id=120f7a5312cc11445837&client_secret=6ce0e1984fedd0cfc00701093f205b2711858b6f"
 }
