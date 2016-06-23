@@ -16,13 +16,34 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
+  // PROBLEM AREA! -------------------------
+ 
+  var allRepos = [];
+  var allCommits = [];
+
   $scope.userID = null;
 
+  $scope.getRepos = function(){
+    userStorage.getRepos($scope.playerCharacter.userName).then(function(response){
+      allRepos = response;
+      console.log("all repos", allRepos);
+    })
+  }
+
+  $scope.getCommits = function(){
+    userStorage.getCommits(allRepos).then(function(response){
+      allCommits.push(response);
+      console.log("response", allCommits);
+    })
+  }
+
+  // </problemarea> ------------------------------------
+
   //login button text
-  $scope.loginButton = "Log in with Github"
+  $scope.loginButton = "Log in with Github";
 
   //dialogue bar text
-  $scope.message = "WELCOME TO ABCQuest"
+  $scope.message = "WELCOME TO ABCQuest";
 
   //on click of attack button- battle sequence
   $scope.attackSequence = function(){
@@ -67,7 +88,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
       $scope.playerCharacter.health = 10;
       //update GP spent & HP total w/firebase
       $scope.message= `the potion heals you for ${amtHealed}.`
-      console.log("GP spent:", $scope.playerCharacter.GPspent);
+      userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
     }
   }
 

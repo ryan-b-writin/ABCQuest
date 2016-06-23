@@ -17,6 +17,7 @@ var authToken = function(){
      })
     }
 
+
 authToken();
 
 //get list of all users
@@ -133,10 +134,12 @@ var updateUserAcct = function(objectID, updatedObject){
       });
   };
 
-var getRepos = function(){
-let allRepos = [];
+// PROBLEM AREA ----------------------------------------------
+
+var getRepos = function(userName){
+  let allRepos = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/users/${userAccount.userName}/repos${mytoken}`)
+  $http.get(`https://api.github.com/users/${userName}/repos${myToken}`)
     .success(function(response){
       for (let repoName in response){
         allRepos.push(response[repoName].name);
@@ -146,38 +149,23 @@ let allRepos = [];
   })
 }
 
-var getCommits = function(repoName){
+var getCommits = function(listOfRepos){
   let allCommits = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits${myToken}`)
+  for (let repoName in listOfRepos) {
+  $http.get(`https://api.github.com/repos/${userAccount.userName}/${listOfRepos[repoName]}/commits${myToken}`)
     .success(function(response){
       for (let commits in response){
         allCommits.push(response[commits]);
       }
       resolve(allCommits);
     })
-  })
+  }
+})
 }
 
-
-var countCommits = function(){
-  getRepos().then(function(repoNames){
-    for (let repoName in repoNames){
-      getCommits(repoNames[repoName]).then(function(response){
-        for (let commits in response) {
-          totalCommits.push(response[commits])
-        }
-      })
-    }
-    console.log("total comits", totalCommits);
-    return totalCommits.length
-  })
-}
-
-var getTotalCommits = function(){
-  return totalCommits.length;
-}
+// </problemarea> ------------------------------------------
 
 
-  return {updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, countCommits:countCommits, getTotalCommits:getTotalCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+  return {getCommits:getCommits, getRepos:getRepos, updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });
