@@ -2,14 +2,49 @@
 app.factory("userStorage", function($q, $http, firebaseURL){
 var userAccount = {};
 var totalCommits = [];
+var userID = null;
 
-//function to find specific user accounts
-  var findUserAcct = function(){
-    return false;
+//get list of all users
+  var getUserList = function(){
+    var userAcctId = "";
+    var users = [];
+    return $q(function(resolve, reject){
+      $http.get(`${firebaseURL}users.json`)
+        .success(function(usersObject){
+          var userCollection = usersObject;
+          Object.keys(userCollection).forEach(function(key){
+            userCollection[key].id=key;
+            users.push(userCollection[key]);
+          })
+          resolve(users);
+        })
+        .error(function(error){
+          reject(error);
+        });
+      })
+  }
+
+  //find specific user in list by uid
+  var findUserAcct = function(userList, githubUID){
+    console.log("searching for UID:", githubUID);
+    let userID = null;
+    for (let singleUser in userList){
+      if (userList[singleUser].uid === githubUID){
+        userID = userList[singleUser].id
+        console.log("userID found", userID );
+      }
+    } if (userID === null){
+      return "not found";
+    } else {
+      return userID;
+      console.log("user found!");
+    }
   }
 
   //post new user account to Firebase
   var postNewUserAcct = function(newUser){
+    userID = newUser.uid;
+    console.log("posting acct with user id", userID);
     return $q(function(resolve,reject){
       $http.post(
         firebaseURL + "users.json",
@@ -20,7 +55,8 @@ var totalCommits = [];
           GPspent: 0,
           kills: 0,
           hp: 10,
-          uid: newUser.uid
+          uid: newUser.uid,
+          monster: newUser.monster
         })
         ).success(
         function(objectFromFirebase){
@@ -28,6 +64,18 @@ var totalCommits = [];
         }
       );
     })
+  }
+
+ var retrieveUserInfo = function(objectID){
+    return $q(function(resolve, reject){
+      $http.get(firebaseURL + "users/"+objectID+".json")
+        .success(function(itemObject){
+          resolve(itemObject);
+        })
+        .error(function(error){
+          reject(error);
+        });
+      });
   }
 
 //run code snippet from firebase to get github token and/or UID
@@ -47,10 +95,14 @@ var authWithGitHub = function(){
   })
 }
 
+var updateGithub = function(){
+  console.log("updateGithub");
+}
+
 var getRepos = function(){
 let allRepos = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/users/${userAccount.userName}/repos?xxxx`)
+  $http.get(`https://api.github.com/users/${userAccount.userName}/repos`)
     .success(function(response){
       for (let repoName in response){
         allRepos.push(response[repoName].name);
@@ -63,7 +115,7 @@ let allRepos = [];
 var getCommits = function(repoName){
   let allCommits = [];
   return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits?xxxx`)
+  $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits`)
     .success(function(response){
       for (let commits in response){
         allCommits.push(response[commits]);
@@ -93,5 +145,5 @@ var getTotalCommits = function(){
 }
 
 
-  return {countCommits:countCommits, getTotalCommits:getTotalCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+  return {updateGithub:updateGithub, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, countCommits:countCommits, getTotalCommits:getTotalCommits, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });

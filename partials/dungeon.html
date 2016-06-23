@@ -10,7 +10,7 @@
 
 <!-- enemy portrait appears here -->
 <div class="monsters">
-  <img ng-src={{monster.portrait}}>
+  <img ng-src={{playerCharacter.monster.portrait}}>
 </div>
 
 
@@ -19,8 +19,8 @@
   <div class="col s6 menu leftMenu">
     <img class="avatar" ng-src={{playerCharacter.avatar}}>
     <p class="stats">{{playerCharacter.userName}} |</p>
-    <p class="stats">HP: {{playerCharacter.health}}/10</p>
-    <p class="stats">Monsters Slain: {{playerCharacter.monster_kills}}</p>
+    <p class="stats">HP: {{playerCharacter.health}}/10 |</p>
+    <p class="stats">Monsters Slain: {{playerCharacter.kills}}</p>
     <button ng-click="getGP()">{{loginButton}}</button>
   </div>
 
