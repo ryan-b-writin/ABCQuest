@@ -29,12 +29,16 @@ app.controller("DungeonCtrl", function($scope, userStorage){
 
   $scope.getGP = function(){
     var repoName = prompt("Name your repository and mine it for gold!")
+    //make an api call using the user's name and the given repo name, return number of commits
     userStorage.countCommits(repoName).then(function(data){
+      // check if this repo is already being tracked by this user
       for (let repoObject in $scope.playerCharacter.repos){
         if ($scope.playerCharacter.repos[repoObject].name === repoName) {
+          //if a repo object already exists with the same name, update the commit count associated with it
           $scope.playerCharacter.repos[repoObject].total = data;
           console.log("updated repo object", $scope.playerCharacter.repos[repoObject]);
         } else {
+          //if no repo object exists with the provided name, make a new one and add it to the user's account
           let newRepoObject = {
             name: repoName,
             total: data
@@ -42,8 +46,9 @@ app.controller("DungeonCtrl", function($scope, userStorage){
           $scope.playerCharacter.repos.push(newRepoObject);
         }
       }
+        // check all of the user's repo objects & total them up
         $scope.playerCharacter.GPcounted += countTotalGP();
-        console.log("gp counted", $scope.playerCharacter.GPcounted);
+        //update Firebase with the new total & tracked repo objects
         userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
     })
   }
