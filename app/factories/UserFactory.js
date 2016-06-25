@@ -134,38 +134,21 @@ var updateUserAcct = function(objectID, updatedObject){
       });
   };
 
-// PROBLEM AREA ----------------------------------------------
-
-var getRepos = function(userName){
-  let allRepos = [];
-  return $q(function(resolve,reject){
-  $http.get(`https://api.github.com/users/${userName}/repos${myToken}`)
-    .success(function(response){
-      for (let repoName in response){
-        allRepos.push(response[repoName].name);
-      }
-      resolve(allRepos)
-    })
-  })
-}
-
-var getCommits = function(listOfRepos){
+var countCommits = function(repoName){
   let allCommits = [];
-  return $q(function(resolve,reject){
-    for (let repoName in listOfRepos) {
-    $http.get(`https://api.github.com/repos/${userAccount.userName}/${listOfRepos[repoName]}/commits${myToken}`)
-      .success(function(response){
+  console.log("countCommits", repoName);
+   return $q(function(resolve,reject){
+    $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits${myToken}`)
+    .success(function(response){
         for (let commits in response){
           allCommits.push(response[commits]);
         }
-        resolve(allCommits);
+        resolve(allCommits.length);
       })
-    }
   })
 }
 
-// </problemarea> ------------------------------------------
 
 
-  return {getCommits:getCommits, getRepos:getRepos, updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+  return {countCommits:countCommits, updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });

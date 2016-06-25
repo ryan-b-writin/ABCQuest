@@ -1,4 +1,14 @@
 app.controller("DungeonCtrl", function($scope, userStorage){
+
+  var countTotalGP = function(){
+    let totalGP = 0;
+    for (let repoObject in $scope.playerCharacter.repos){
+      totalGP += $scope.playerCharacter.repos[repoObject].total;
+    }
+    console.log("total GP", totalGP );
+    return totalGP;
+  }
+
   $scope.playerCharacter = {
     attackDamage: 2,
     health: 10,
@@ -8,6 +18,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     userName: "Mysterious Adventurer",
     GPcounted: 0,
     GPspent: 0,
+    repos: [{name: "abcquest", total: 3}],
     monster: {
       attackDamage: 1,
       health: 4,
@@ -16,28 +27,27 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
-  // PROBLEM AREA! -------------------------
- 
-  var allRepos = [];
-  var allCommits = [];
-
-  $scope.userID = null;
-
-  $scope.getRepos = function(){
-    userStorage.getRepos($scope.playerCharacter.userName).then(function(response){
-      allRepos = response;
-      console.log("all repos", allRepos);
+  $scope.getGP = function(){
+    var repoName = prompt("Input the name of your repository and mine it for gold!")
+    userStorage.countCommits(repoName).then(function(data){
+      for (let repoObject in $scope.playerCharacter.repos){
+        if ($scope.playerCharacter.repos[repoObject].name === repoName) {
+          $scope.playerCharacter.repos[repoObject].total = data;
+          console.log("updated repo object", $scope.playerCharacter.repos[repoObject]);
+        } else {
+          let newRepoObject = {
+            name: repoName,
+            total: data
+          }
+          $scope.playerCharacter.repos.push(newRepoObject);
+        }
+      }
+        $scope.playerCharacter.GPcounted = countTotalGP();
+        console.log("gp counted", $scope.playerCharacter.GPcounted);
+        userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
     })
   }
 
-  $scope.getCommits = function(){
-    userStorage.getCommits(allRepos).then(function(response){
-      allCommits.push(response);
-      console.log("response", allCommits);
-    })
-  }
-
-  // </problemarea> ------------------------------------
 
   //login button text
   $scope.loginButton = "Log in with Github";
@@ -95,8 +105,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   //login button function. pulls down github data, populates menu
   //pulls down firebase user account if one is present,
   //pushes up new acount info if one is not.
-  $scope.getGP = function(){
-    $scope.loginButton = "Update GP total"
+  $scope.loginToGithub = function(){
     //if player is unauthenticated...
     if (!$scope.playerCharacter.uid){
       userStorage.authWithGitHub()
