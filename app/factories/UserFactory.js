@@ -123,7 +123,8 @@ var updateUserAcct = function(objectID, updatedObject){
                 kills: updatedObject.kills,
                 hp: updatedObject.health,
                 uid: updatedObject.uid,
-                monster: updatedObject.monster
+                monster: updatedObject.monster,
+                repos: updatedObject.repos
               })
           )
           .success(

@@ -42,7 +42,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
           $scope.playerCharacter.repos.push(newRepoObject);
         }
       }
-        $scope.playerCharacter.GPcounted = countTotalGP();
+        $scope.playerCharacter.GPcounted += countTotalGP();
         console.log("gp counted", $scope.playerCharacter.GPcounted);
         userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
     })
@@ -106,6 +106,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   //pulls down firebase user account if one is present,
   //pushes up new acount info if one is not.
   $scope.loginToGithub = function(){
+    $scope.loginButton = "Mine for gold!"
     //if player is unauthenticated...
     if (!$scope.playerCharacter.uid){
       userStorage.authWithGitHub()
@@ -138,6 +139,8 @@ app.controller("DungeonCtrl", function($scope, userStorage){
           // finally, update the number of commits counted in userAccount object & firebase
           // var numOfCommits = userStorage.countCommits()
         })
+    } else {
+      $scope.getGP();
     }
   }
 

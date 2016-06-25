@@ -10,7 +10,7 @@ button {
   text-align: center; }
 
 .dungeon {
-  height: 40em;
+  height: 50em;
   background-size: 100%; }
 
 .dialogueBar {
@@ -20,7 +20,7 @@ button {
 
 .monsters {
   text-align: center;
-  min-height: 300px;
+  min-height: 400px;
   padding: 20px; }
 
 .menu {
