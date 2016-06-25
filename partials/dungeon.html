@@ -1,5 +1,5 @@
 <!-- GP counter ticks down as GP is spent -->
-<div class="col s12 blue" style="text-align:center">
+<div class="col s12 blue gitTracker" >
   {{(playerCharacter.GPcounted - playerCharacter.GPspent)}} GP
 </div>
 
@@ -10,6 +10,7 @@
 
 <!-- enemy portrait appears here -->
 <div class="monsters">
+  <div class="row"></div>
   <img ng-src={{playerCharacter.monster.portrait}}>
 </div>
 

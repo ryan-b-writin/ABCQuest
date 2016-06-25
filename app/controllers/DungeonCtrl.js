@@ -28,7 +28,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   }
 
   $scope.getGP = function(){
-    var repoName = prompt("Input the name of your repository and mine it for gold!")
+    var repoName = prompt("Name your repository and mine it for gold!")
     userStorage.countCommits(repoName).then(function(data){
       for (let repoObject in $scope.playerCharacter.repos){
         if ($scope.playerCharacter.repos[repoObject].name === repoName) {
@@ -59,7 +59,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   $scope.attackSequence = function(){
     $scope.playerCharacter.monster.health -= $scope.playerCharacter.attackDamage;
     if($scope.playerCharacter.monster.health < 1) {
-      $scope.message= `you slew the ${$scope.playerCharacter.monster.name}`
+      $scope.message= `You slew the ${$scope.playerCharacter.monster.name}!!`
       $scope.playerCharacter.kills += 1;
       //update user account with new monster kill total
       $scope.playerCharacter.monster.health = 4;
@@ -68,7 +68,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
       $scope.playerCharacter.health -= $scope.playerCharacter.monster.attackDamage;
       //update user account with new HP total
       if ($scope.playerCharacter.health < 1){
-        $scope.message="YOU HAVE FALLEN IN BATTLE"
+        $scope.message="You have fallen in battle."
       } else {
         $scope.message=`You hit the ${$scope.playerCharacter.monster.name} for ${$scope.playerCharacter.attackDamage}. The monster hits you for ${$scope.playerCharacter.monster.attackDamage}!`
       }
@@ -80,7 +80,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   $scope.flee = function(){
     let coinFlip = Math.round(Math.random());
     if (coinFlip === 0){
-      $scope.message="you fled the battle!"
+      $scope.message="You fled the battle!"
       $scope.playerCharacter.monster.health = 4;
     } else {
       $scope.playerCharacter.health -= $scope.playerCharacter.monster.attackDamage;
@@ -97,7 +97,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
       var amtHealed = 10 - $scope.playerCharacter.health;
       $scope.playerCharacter.health = 10;
       //update GP spent & HP total w/firebase
-      $scope.message= `the potion heals you for ${amtHealed}.`
+      $scope.message= `The potion heals you for ${amtHealed}.`
       userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
     }
   }

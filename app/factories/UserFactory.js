@@ -59,7 +59,7 @@ authToken();
 
   //post new user account to Firebase
   var postNewUserAcct = function(newUser){
-    userID = newUser.uid;
+    let userID = newUser.uid;
     console.log("posting acct with user id", userID);
     return $q(function(resolve,reject){
       $http.post(

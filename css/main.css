@@ -16,7 +16,8 @@ button {
 .dialogueBar {
   background-color: blue;
   text-align: center;
-  color: white; }
+  color: white;
+  border: 6px solid white; }
 
 .monsters {
   text-align: center;
@@ -27,8 +28,7 @@ button {
   background-color: blue;
   color: white;
   min-height: 150px;
-  border: 2px solid white;
-  padding-top: 10px; }
+  border: 6px solid white; }
 
 .avatar {
   width: 50px;
