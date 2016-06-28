@@ -1,14 +1,5 @@
 app.controller("DungeonCtrl", function($scope, userStorage){
 
-  var countTotalGP = function(){
-    let totalGP = 0;
-    for (let repoObject in $scope.playerCharacter.repos){
-      totalGP += $scope.playerCharacter.repos[repoObject].total;
-    }
-    console.log("total GP", totalGP );
-    return totalGP;
-  }
-
   $scope.playerCharacter = {
     attackDamage: 2,
     health: 10,
@@ -18,7 +9,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     userName: "Mysterious Adventurer",
     GPcounted: 0,
     GPspent: 0,
-    repos: [{name: "dummyData", total: 0}],
+    repos: [{name: "Here so the array isn't empty", total: 0}],
     monster: {
       attackDamage: 1,
       health: 4,
@@ -27,8 +18,16 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
+// count total GP in all tracked repos
+  var countTotalGP = function(){
+    let totalGP = 0;
+    for (let repoObject in $scope.playerCharacter.repos){
+      totalGP += $scope.playerCharacter.repos[repoObject].total;
+    }
+    return totalGP;
+  }
+
   $scope.getGP = function(){
-    console.log("current repos", $scope.playerCharacter.repos);
     var repoName = prompt("Name your repository and mine it for gold!")
     var repo_found = false;
     //make an api call using the user's name and the given repo name, return number of commits
@@ -143,6 +142,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
               $scope.playerCharacter.GPcounted = data.GPcounted;
               $scope.playerCharacter.GPspent = data.GPspent;
               $scope.playerCharacter.monster = data.monster;
+              $scope.playerCharacter.repos = data.repos;
             })
             }
           })
@@ -154,6 +154,5 @@ app.controller("DungeonCtrl", function($scope, userStorage){
       $scope.getGP();
     }
   }
-
 
 });
