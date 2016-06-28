@@ -18,7 +18,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     userName: "Mysterious Adventurer",
     GPcounted: 0,
     GPspent: 0,
-    repos: [{name: "abcquest", total: 3}],
+    repos: [{name: "dummyData", total: 0}],
     monster: {
       attackDamage: 1,
       health: 4,
@@ -28,7 +28,9 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   }
 
   $scope.getGP = function(){
+    console.log("current repos", $scope.playerCharacter.repos);
     var repoName = prompt("Name your repository and mine it for gold!")
+    var repo_found = false;
     //make an api call using the user's name and the given repo name, return number of commits
     userStorage.countCommits(repoName).then(function(data){
       // check if this repo is already being tracked by this user
@@ -36,22 +38,26 @@ app.controller("DungeonCtrl", function($scope, userStorage){
         if ($scope.playerCharacter.repos[repoObject].name === repoName) {
           //if a repo object already exists with the same name, update the commit count associated with it
           $scope.playerCharacter.repos[repoObject].total = data;
-          console.log("updated repo object", $scope.playerCharacter.repos[repoObject]);
-        } else {
+          repo_found = true;
+        } 
           //if no repo object exists with the provided name, make a new one and add it to the user's account
+        }
+        if (!repo_found){
           let newRepoObject = {
             name: repoName,
             total: data
           }
           $scope.playerCharacter.repos.push(newRepoObject);
         }
-      }
         // check all of the user's repo objects & total them up
-        $scope.playerCharacter.GPcounted += countTotalGP();
+        $scope.playerCharacter.GPcounted = countTotalGP();
         //update Firebase with the new total & tracked repo objects
         userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
-    })
-  }
+      })
+    }
+
+  //notes: does not work because it is pushing a new repo object for EACH repo object it iterates through.
+    // try finding the object once and deleting it. new object to replace it carry on business as usual
 
 
   //login button text

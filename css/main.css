@@ -3,6 +3,7 @@ body {
   background-size: 100%; }
 
 button {
+  margin-top: 8px;
   color: black;
   display: block; }
 
@@ -14,6 +15,7 @@ button {
   background-size: 100%; }
 
 .dialogueBar {
+  border-radius: 25px;
   background-color: blue;
   text-align: center;
   color: white;
@@ -25,6 +27,7 @@ button {
   padding: 20px; }
 
 .menu {
+  border-radius: 25px;
   background-color: blue;
   color: white;
   min-height: 150px;

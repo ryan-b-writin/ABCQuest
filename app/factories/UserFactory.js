@@ -27,12 +27,14 @@ authToken();
     return $q(function(resolve, reject){
       $http.get(`${firebaseURL}users.json`)
         .success(function(usersObject){
+          console.log("usersObject", usersObject);
           var userCollection = usersObject;
           Object.keys(userCollection).forEach(function(key){
             userCollection[key].id=key;
             users.push(userCollection[key]);
           })
           resolve(users);
+          console.log("users", users );
         })
         .error(function(error){
           reject(error);
