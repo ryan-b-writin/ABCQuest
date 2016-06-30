@@ -18,6 +18,8 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
+  $scope.listOfRepos = [];
+
 // count total GP in all tracked repos
   var countTotalGP = function(){
     let totalGP = 0;
@@ -120,6 +122,9 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     //if player is unauthenticated...
     if (!$scope.playerCharacter.uid){
       userStorage.authWithGitHub()
+        .then(function(resolve){
+          getRepoList(resolve.github.username)
+        })
         .then(function(resolve){
           //populate menu with github auth results- avatar, name, uid for tracking account
           $scope.playerCharacter.uid = resolve.uid,

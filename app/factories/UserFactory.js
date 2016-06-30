@@ -151,7 +151,11 @@ var countCommits = function(repoName){
   })
 }
 
+var getRepoList = function(username){
+  console.log("username", username);
+}
 
 
-  return {countCommits:countCommits, updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
+
+  return {getRepoList:getRepoList, countCommits:countCommits, updateuserAcct:updateUserAcct, retrieveUserInfo:retrieveUserInfo, getUserList:getUserList, authWithGitHub:authWithGitHub, postNewUserAcct:postNewUserAcct, findUserAcct:findUserAcct};
 });
