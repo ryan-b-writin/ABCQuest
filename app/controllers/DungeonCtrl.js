@@ -43,7 +43,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   }
 
   $scope.getGP = function(){
-    var repoName = prompt("Name your repository and mine it for gold!")
+    var repoName = prompt("Name your repository and mine it for gold!").toLowerCase();
     var repo_found = false;
     //make an api call using the user's name and the given repo name, return number of commits
     userStorage.countCommits(repoName).then(function(data){
