@@ -139,7 +139,6 @@ var updateUserAcct = function(objectID, updatedObject){
 
 var countCommits = function(repoName){
   let allCommits = [];
-  console.log("countCommits", repoName);
    return $q(function(resolve,reject){
     $http.get(`https://api.github.com/repos/${userAccount.userName}/${repoName}/commits${myToken}`)
     .success(function(response){
@@ -152,7 +151,16 @@ var countCommits = function(repoName){
 }
 
 var getRepoList = function(username){
-  console.log("username", username);
+  let repoList = [];
+  return $q(function(resolve,reject){
+    $http.get(`https://api.github.com/users/${username}/repos${myToken}`)
+    .success(function(response){
+      for (let repo in response){
+        repoList.push(response[repo].name)
+      }
+      resolve(repoList);
+     })
+  })
 }
 
 

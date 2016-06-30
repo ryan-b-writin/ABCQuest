@@ -20,6 +20,19 @@ app.controller("DungeonCtrl", function($scope, userStorage){
 
   $scope.listOfRepos = [];
 
+  //login button text
+  $scope.loginButton = " > Log in with Github! <";
+
+  //dialogue bar text
+  $scope.message = "WELCOME TO ABCQuest";
+
+  $scope.getRepoList = function(){
+    userStorage.getRepoList($scope.playerCharacter.userName).then(function(data){
+      $scope.listOfRepos = data;
+      console.log("listOfRepos", $scope.listOfRepos);
+    })
+  }
+
 // count total GP in all tracked repos
   var countTotalGP = function(){
     let totalGP = 0;
@@ -36,6 +49,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     userStorage.countCommits(repoName).then(function(data){
       // check if this repo is already being tracked by this user
       for (let repoObject in $scope.playerCharacter.repos){
+        console.log("repos", $scope.playerCharacter.repos);
         if ($scope.playerCharacter.repos[repoObject].name === repoName) {
           //if a repo object already exists with the same name, update the commit count associated with it
           $scope.playerCharacter.repos[repoObject].total = data;
@@ -51,21 +65,14 @@ app.controller("DungeonCtrl", function($scope, userStorage){
           $scope.playerCharacter.repos.push(newRepoObject);
         }
         // check all of the user's repo objects & total them up
+        let currentGP = ($scope.playerCharacter.GPcounted - $scope.playerCharacter.GPspent)
         $scope.playerCharacter.GPcounted = countTotalGP();
+        let GPdiff = ($scope.playerCharacter.GPcounted - currentGP)
+        $scope.message = `You mined ${GPdiff} gold!`
         //update Firebase with the new total & tracked repo objects
         userStorage.updateuserAcct($scope.userID, $scope.playerCharacter)
       })
     }
-
-  //notes: does not work because it is pushing a new repo object for EACH repo object it iterates through.
-    // try finding the object once and deleting it. new object to replace it carry on business as usual
-
-
-  //login button text
-  $scope.loginButton = "Log in with Github";
-
-  //dialogue bar text
-  $scope.message = "WELCOME TO ABCQuest";
 
   //on click of attack button- battle sequence
   $scope.attackSequence = function(){
@@ -118,13 +125,10 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   //pulls down firebase user account if one is present,
   //pushes up new acount info if one is not.
   $scope.loginToGithub = function(){
-    $scope.loginButton = "Mine for gold!"
+    $scope.loginButton = "> Mine for gold! <"
     //if player is unauthenticated...
     if (!$scope.playerCharacter.uid){
       userStorage.authWithGitHub()
-        .then(function(resolve){
-          getRepoList(resolve.github.username)
-        })
         .then(function(resolve){
           //populate menu with github auth results- avatar, name, uid for tracking account
           $scope.playerCharacter.uid = resolve.uid,
