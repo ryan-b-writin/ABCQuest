@@ -1,4 +1,8 @@
 app.controller("DungeonCtrl", function($scope, userStorage){
+  $(document).ready(function(){
+    // the "href" attribute of .modal-trigger must specify the modal ID that wants to be triggered
+    $('.modal-trigger').leanModal();
+  });
 
   $scope.playerCharacter = {
     attackDamage: 2,
@@ -18,18 +22,19 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     }
   }
 
+  $scope.repoToSearch = "";
+
   $scope.listOfRepos = [];
 
   //login button text
   $scope.loginButton = " > Log in with Github! <";
 
   //dialogue bar text
-  $scope.message = "WELCOME TO ABCQuest";
+  $scope.message = "WELCOME TO ABCQuest!";
 
   $scope.getRepoList = function(){
     userStorage.getRepoList($scope.playerCharacter.userName).then(function(data){
       $scope.listOfRepos = data;
-      console.log("listOfRepos", $scope.listOfRepos);
     })
   }
 
@@ -43,7 +48,7 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   }
 
   $scope.getGP = function(){
-    var repoName = prompt("Name your repository and mine it for gold!").toLowerCase();
+    var repoName = $scope.repoToSearch.toLowerCase();
     var repo_found = false;
     //make an api call using the user's name and the given repo name, return number of commits
     userStorage.countCommits(repoName).then(function(data){
@@ -125,7 +130,6 @@ app.controller("DungeonCtrl", function($scope, userStorage){
   //pulls down firebase user account if one is present,
   //pushes up new acount info if one is not.
   $scope.loginToGithub = function(){
-    $scope.loginButton = "> Mine for gold! <"
     //if player is unauthenticated...
     if (!$scope.playerCharacter.uid){
       userStorage.authWithGitHub()
@@ -134,16 +138,16 @@ app.controller("DungeonCtrl", function($scope, userStorage){
           $scope.playerCharacter.uid = resolve.uid,
           $scope.playerCharacter.avatar = resolve.github.profileImageURL,
           $scope.playerCharacter.userName = resolve.github.username;
-          //search for existing account. if none is found...
+          //search for existing firebase account. if none is found...
           var githubUID = $scope.playerCharacter.uid;
           userStorage.getUserList().then(function(data){
             $scope.userID = userStorage.findUserAcct(data, githubUID)
             if ($scope.userID === "not found"){
-            //push up the current userAccount object with starting stats & github name. avatar etc
+            //push up the current userAccount object to firebase with starting stats & github name. avatar etc
             userStorage.postNewUserAcct($scope.playerCharacter).then(function(response){
               $scope.userID = response.name;
             })
-            //if an existing account is found..
+            //if an existing firebase account is found..
             } else {
               userStorage.retrieveUserInfo($scope.userID).then(function(data){
               $scope.playerCharacter.health = data.hp;
@@ -158,7 +162,8 @@ app.controller("DungeonCtrl", function($scope, userStorage){
         
           // finally, update the number of commits counted in userAccount object & firebase
           // var numOfCommits = userStorage.countCommits()
-        })
+          $scope.getRepoList();
+        }) 
     } else {
       $scope.getGP();
     }

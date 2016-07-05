@@ -16,7 +16,7 @@
 
 
 <!-- bottom left menu: populate with character info -->
-<button ng-click="getRepoList()">Get Repo List</button>
+<!-- <button ng-click="getRepoList()">Get Repo List</button> -->
 <!-- GP counter ticks down as GP is spent -->
 <footer>
 <div class="row">
@@ -26,7 +26,8 @@
     <p class="stats">HP: {{playerCharacter.health}}/10 |</p>
     <p class="stats">{{(playerCharacter.GPcounted - playerCharacter.GPspent)}} GP |</p>
     <p class="stats">Monsters Slain: {{playerCharacter.kills}}</p>
-    <a ng-click="loginToGithub()" href="#/" class="action">{{loginButton}}</a>
+    <a ng-click="loginToGithub()" href="#/" ng-hide="playerCharacter.uid" class="action">{{loginButton}}</a>
+    <a class=" action modal-trigger" ng-show="playerCharacter.uid" href="#modal1">> Mine for gold! <</a>
   </div>
 
   <!-- bottom right menu: menu selections: attack, etc-->
@@ -41,16 +42,15 @@
 </div>
 </footer>
 
-  <!-- Modal Trigger -->
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-
   <!-- Modal Structure -->
   <div id="modal1" class="modal">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
+      <h4>Turn your commits into GP.</h4>
+    <label>Type in the name of your repository to mine it for a maximum of 30GP!</label>
+    <input type="text" placeholder="enter repo name here!" ng-model='repoToSearch'/>
+
     </div>
     <div class="modal-footer">
-      <a href="#!" class=" modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#/" ng-click="getGP()" class=" modal-action modal-close waves-effect waves-green btn-flat">Git to mining</a>
     </div>
   </div>
