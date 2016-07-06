@@ -17,8 +17,8 @@ app.controller("DungeonCtrl", function($scope, userStorage){
     monster: {
       attackDamage: 1,
       health: 4,
-      portrait: "assets/monster.jpeg",
-      name: "generic placeholder"
+      portrait: "assets/orc.png",
+      name: "Orc Berserker"
     }
   }
 
