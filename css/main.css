@@ -28,6 +28,23 @@ button {
   min-height: 400px;
   padding-top: 20px; }
 
+.monsters img {
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+  animation-name: bob;
+}
+
+@keyframes bob {
+  from {
+    margin-top: 0px;
+  }
+
+  to {
+    margin-top: 20px;
+  }
+}
+
 .menu {
   border-radius: 25px;
   background-color: blue;
