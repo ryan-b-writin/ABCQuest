@@ -11,4 +11,4 @@ The goal of the game is to defeat as many orcs as possible, log out for awhile, 
 
 ABCQuest uses your Github account to log you into your ABCQuest user account. 
 
-It was originally intended to check all of your commits since the last login. However, Due to a problem with nested promises, it instead checks one repository at a time. Your user account tracks each of your repositories and the number of commits made to it at last check. When you check again, it compares the current number of commits to the last check.
+It was originally intended to check all of your commits since the last login. However, due to a problem with nested promises, it instead checks one repository at a time. Your user account tracks each of your repositories and the number of commits made to it at last check. When you check again, it compares the current number of commits to the last check.
