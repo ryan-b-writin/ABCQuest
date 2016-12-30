@@ -1,4 +1,4 @@
-## This project needs to be refactored to work with a Firebase update. The authentication and user account features no longer work after the Firebase changes.
+## This project needs to be refactored to work with the latest Firebase update. The authentication and user account features no longer work after the Firebase changes.
 
 # ABCQuest
 Always Be Questing
