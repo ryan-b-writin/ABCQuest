@@ -1,4 +1,5 @@
-## This project needs to be refactored to work with the latest Firebase update. The authentication and user account features no longer work after the Firebase changes.
+This project is hosted at:  
+http://www.midnightthunder.net/projects/currentBuild/index.html
 
 # ABCQuest
 Always Be Questing
@@ -11,4 +12,6 @@ The goal of the game is to defeat as many orcs as possible, log out for awhile, 
 
 ABCQuest uses your Github account to log you into your ABCQuest user account. 
 
-It was originally intended to check all of your commits since the last login. However, due to a problem with nested promises, it instead checks one repository at a time. Your user account tracks each of your repositories and the number of commits made to it at last check. When you check again, it compares the current number of commits to the last check.
+Click "mine for gold!" after logging in and a prompt will pop up to ask you for the name of a Github repo. ABCQuest keeps track of your commits to each repo, and will reward you with gold- up to a total of 30 for a repo- for every commit made since last check.
+
+As you fight orcs, you will also take damage. Click 'Health potion' to restore your HP to full at the cost of 1 GP. You will no longer be able to fight orcs if your HP reaches 0.
