@@ -15,3 +15,10 @@ ABCQuest uses your Github account to log you into your ABCQuest user account.
 Click "mine for gold!" after logging in and a prompt will pop up to ask you for the name of a Github repo. ABCQuest keeps track of your commits to each repo, and will reward you with gold- up to a total of 30 for a repo- for every commit made since last check.
 
 As you fight orcs, you will also take damage. Click 'Health potion' to restore your HP to full at the cost of 1 GP. You will no longer be able to fight orcs if your HP reaches 0.
+
+##Future updates
+-Player and orc deal random damage
+-Orc visibly reacts to damage
+-Multiple character classes
+-Add other user accounts to 'party'
+-Battle multiple enemies at once
